@@ -35,7 +35,7 @@ void renderGrid(sf::RenderWindow &window) {
 }
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
+    sf::RenderWindow window(sf::VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Le Jeu de la Vie");
     
     initializeGrid();
 

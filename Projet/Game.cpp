@@ -1,35 +1,49 @@
-#include "Grid.h"
-#include <SFML/Graphics.hpp>
+#include "grid.cpp"
+#include "GameFile.cpp"*
 #include <iostream>
-#include <vector>
-#include <ctime>
-#include <cstdlib>
+#include <SFML/Graphics.hpp>
 
 using namespace std;
 
 
-
-class Game : public Grid{
+class Game {
 private:
-    grid: Grid;
+    Grid grid;
     int maxIteration;
     int currentIteration;
 
 public:
-    Game() : (){}
-    Game (grid Grid, int maxIteration) : Grid(rows, cols) {}; 
-
+    Game (Grid grid, int maxIteration) : grid(grid), maxIteration(maxIteration), currentIteration(0) {}; 
 
     void runConsoleMode() {
-        return 1;
+        while (currentIteration < maxIteration){
+            grid.updateGrid();
+            string outputPath = "output_" + to_string(currentIteration) + ".txt";
+            GameFile::writeFile(grid, outputPath);
+            currentIteration++;
+        }
     }
 
-    void  runGraphiquesMode() {
-        return 0;
+    void runGraphicsMode() {
+        sf::RenderWindow window(sf::VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Le Jeu de la Vie");
+        initializeGrid();
+
+        while (render.getWindow().isOpen()) {
+            sf::Event event;
+            while (render.getWindow().pollEvent(event)) {
+                if (event.type == sf::Event::Closed) {
+                    render.getWindow().close();
+                }
+            }
+
+            grid.updateGrid();
+            render.renderGrid();
+            sf::sleep(sf::milliseconds(500));
+        }
     }
 
     bool isStable() {
-        return 1;
+        return false;
     }
 };
 
@@ -37,31 +51,31 @@ public:
 
 
 
-int main(){
-    char current_parti_file;
-
-    cout << "Bienvenu dans le Jeu de la Vie!";
-    cout << "Entrez un chemin d'enregistrement pour votre partie!";
-    cin >> current_parti_file;
-
-    cout << "Parfait!\nMaintenant, entrez le nombre de colonne : \n";
-    cin >> 
-
-    int mode_choice;
-
-    cout << "Pour le Mode Console tapez 1, pour le Mode Graphique tapez 2 :\n";
-    cin >> mode_choice;
-
-    if (mode_choice == 1){
-        cout << "Mode Console\n";
-        runConsoleMode();
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        cerr << "Usage: " << argv[0] << " <input_file>" << endl;
+        return 1;
     }
-    if (mode_choice == 2){
-        cout << "Mode Graphique\n"
-        runGraphiquesMode();
-    } else {
-        cout << "Erreur";
-        break;
+
+    try {
+        Grid grid = GameFile::readFile(argv[1]);
+        Game game(grid, 100);
+
+        cout << "Choisissez le mode de jeu : \n1 - Mode Console, 2 - Mode Graphique.\n" << endl;
+        int choice;
+        cin >> choice;
+
+        if (choice == 1) {
+            game.runConsoleMode();
+        } else if (choice == 2) {
+            game.runGraphicsMode();
+        } else {
+            cerr << "Erreur! Mauvaise entrer!" << endl;
+        }
+    } catch (const exception& e) {
+        cerr << e.what() << endl;
+        return 1;
     }
+
+    return 0;
 }
-
