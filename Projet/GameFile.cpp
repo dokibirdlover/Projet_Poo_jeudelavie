@@ -1,9 +1,25 @@
-#include "GameFile.h"
+#ifndef GAMEFILE_H
+#define GAMEFILE_H
+#include "grid.cpp"
+#include <string>
+#include <iostream>
 #include <fstream>
 #include <stdexcept>
 
+using namespace std;
 
-Grid Game::readFile(const string& filePath){
+
+class GameFile {
+public:
+    static Grid readFile (const string& filePath){};
+    static void writeFile (const Grid& grid, const string& outputPath){};
+};
+
+#endif
+
+
+
+Grid GameFile::readFile(const string& filePath){
     ifstream file (filePath);
     if (!file.is_open()){
         throw runtime_error("Impossible d'ouvrir le fichier\n");
@@ -25,13 +41,13 @@ Grid Game::readFile(const string& filePath){
     return grid;
 }
 
-void Game::writeFile(const Grid& grid, const std::string& outputPath) {
+void GameFile::writeFile(const Grid& grid, const string& outputPath) {
     std::ofstream file(outputPath);
     if (!file.is_open()) {
         throw std::runtime_error("Failed to open file: " + outputPath);
     }
     
-    const auto& cells = grid.getCells();
+    const auto& cells = grid.getCell();
     int rows = cells.size();
     int cols = cells[0].size();
 
