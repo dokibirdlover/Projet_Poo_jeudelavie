@@ -1,9 +1,8 @@
 #include "Grid.h"
-#include <SFML/Graphics.hpp>
+#include "GameFile.h"
 #include <iostream>
-#include <vector>
-#include <ctime>
-#include <cstdlib>
+#include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -11,17 +10,20 @@ using namespace std;
 
 class Game : public Grid{
 private:
-    grid: Grid;
+    Grid grid;
     int maxIteration;
     int currentIteration;
 
 public:
-    Game() : (){}
-    Game (grid Grid, int maxIteration) : Grid(rows, cols) {}; 
-
+    Game (Grid grid, int maxIteration) : grid(grid), maxIteration(maxIteration), currentIteration(0) {}; 
 
     void runConsoleMode() {
-        return 1;
+        while (currentIteration != maxIteration){
+            grid.updateGrid();
+            string outputPath = "output_" + to_string(currentiteration) + ".txt";
+            GameFile::writeFile(grid, outputPath);
+            currentIteration++;
+        }
     }
 
     void  runGraphiquesMode() {
