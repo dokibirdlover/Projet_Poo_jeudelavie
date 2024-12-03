@@ -3,24 +3,17 @@
 
 class Cell {
 private:
-    bool isAlive;     
-    bool isObstacle;  
+    bool isAlive;
+    bool isObstacle;
 
 public:
-    //constructeur
-    Cell(bool alive = false, bool obstacle = false)
-        : isAlive(alive), isObstacle(obstacle) {}
+    Cell();
+    
+    void setState(bool state);
+    void setObstacle(bool obstacle);
 
-    // Getters
-    bool getState() const { return isAlive; }
-    bool getObstacle() const { return isObstacle; }
-
-    // Setters
-    void setState(bool state) { isAlive = state; }
-    void setObstacle(bool obstacle) { isObstacle = obstacle; }
-
-    // Méthode pour actualiser l'état d'une cellule
-    void updateState(bool newState) { isAlive = newState; }
+    bool getObstacle() const;
+    bool getState() const;
 };
 
 #endif
