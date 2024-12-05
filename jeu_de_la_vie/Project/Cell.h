@@ -4,11 +4,16 @@
 class Cell {
 private:
     bool isAlive;
+    bool isObstacle;
+
 public:
-    Cell(bool state = false);
-    bool getState() const;
+    Cell();
+    
     void setState(bool state);
-    void updateState(int aliveNeighbors);
+    void setObstacle(bool obstacle);
+
+    bool getObstacle() const;
+    bool getState() const;
 };
 
 #endif
