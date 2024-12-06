@@ -12,6 +12,8 @@ public:
 
     // Ajout de l'opérateur == pour comparer une cellule avec un entier (1 ou 0)
     bool operator==(int value) const;
+
+    int getCell () const { return isAlive; }
 };
 
 #endif

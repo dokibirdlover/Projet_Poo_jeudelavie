@@ -1,6 +1,11 @@
 #include "Grid.h"
 #include "Cell.h"
 #include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
 
 // Constructeur par défaut
 Grid::Grid() : rows(0), cols(0), grid({}) {}
@@ -55,4 +60,31 @@ void Grid::update() {
 // Récupère la grille actuelle
 const std::vector<std::vector<Cell>>& Grid::getGrid() const {
     return grid;
+}
+
+// Sauvegarde la grille dans un fichier
+void Grid::saveGrid(const std::string& nomFichier) {
+    std::ofstream fichier(nomFichier);
+    if (fichier.is_open()) {
+        fichier << rows << " " << cols << std::endl;
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                fichier << (grid[i][j].getState() ? 1 : 0) << " ";
+            }
+            fichier << std::endl;
+        }
+        fichier.close();
+    } else {
+        std::cerr << "Unable to open file: " << nomFichier << std::endl;
+    }
+}
+
+// Initialise aléatoirement des cellules dans la grille
+void Grid::RandomCell() {
+    std::srand(std::time(0));
+    for (int x = 0; x < rows; ++x) {
+        for (int y = 0; y < cols; ++y) {
+            grid[x][y].setState(std::rand() % 2);  // Randomly initialize cells as alive or dead
+        }
+    }
 }

@@ -1,52 +1,36 @@
-#include "GameFile.h"
-#include <fstream>
-#include <sstream>
-#include <stdexcept>
+#ifndef GAMEFILE_H
+#define GAMEFILE_H
+
+#include "Grid.h"
+#include <vector>
+#include <string>
 #include <iostream>
+#include <fstream>
 
-std::vector<std::vector<int>> GameFile::readInitialState(const std::string& filename) {
-    std::ifstream file(filename, std::ios::in | std::ios::ate);  // Ouverture en mode "fin de fichier"
-    if (!file.is_open()) {
-        throw std::runtime_error("Impossible d'ouvrir le fichier : " + filename);
-    }
+using namespace std;
 
-    // Lire tout le contenu du fichier d'un coup
-    std::streampos size = file.tellg();
-    file.seekg(0, std::ios::beg);
+class GameFile {
+public:
+    Grid grid;
 
-    std::string content(size, '\0');
-    file.read(&content[0], size);
-    file.close();
+    static vector<vector<int>> readInitialState(const string& filename);
 
-    // Transformation du contenu en une grille
-    std::vector<std::vector<int>> grid;
-    std::vector<int> row;
-
-    for (char c : content) {
-        if (c == '0' || c == '1') {
-            row.push_back(c - '0');  // Conversion char -> int
-        } else if (c == '\n' || c == '\r') {
-            if (!row.empty()) {
-                grid.push_back(row);
-                row.clear();
+    void writeFile(const std::string& Fichier) {
+        std::ofstream fichier(Fichier);
+        if (fichier.is_open()) {
+            fichier << grid.getHeight() << " " << grid.getWidth() << std::endl;
+            const auto& cells = grid.getGrid();
+            for (const auto& row : cells) {
+                for (const auto& cell : row) {
+                    fichier << (cell.getState() ? 1 : 0) << " ";
+                }
+                fichier << std::endl;
             }
-        } else if (!isspace(c)) {
-            throw std::runtime_error("Caractère invalide trouvé dans le fichier : " + filename);
+            fichier.close();
+        } else {
+            cerr << "Impossible d'ouvrir le fichier : " << Fichier << endl;
         }
     }
+};
 
-    // Ajouter la dernière ligne si elle n'a pas encore été ajoutée
-    if (!row.empty()) {
-        grid.push_back(row);
-    }
-
-    // Vérification des tailles de lignes
-    size_t expectedSize = grid.empty() ? 0 : grid[0].size();
-    for (const auto& r : grid) {
-        if (r.size() != expectedSize) {
-            throw std::runtime_error("Les lignes ont des tailles différentes dans le fichier : " + filename);
-        }
-    }
-
-    return grid;
-}
+#endif // GAMEFILE_H

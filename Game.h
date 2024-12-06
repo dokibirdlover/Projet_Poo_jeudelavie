@@ -2,8 +2,8 @@
 #define GAME_H
 
 #include "Grid.h"
-#include "GameFile.h"
 #include <string>
+#include <SFML/Graphics.hpp>
 
 class Game {
 private:
@@ -11,6 +11,7 @@ private:
     int iterations;
 
 public:
+    Game(const Grid& grid, int iterations); // Nouveau constructeur
     Game(const std::string& filename, int iterations);
     void runConsole();
     void runGraphical();
