@@ -1,3 +1,0 @@
-/mnt/d/projettruee/SFML_Project/build/CMakeFiles/main.dir
-/mnt/d/projettruee/SFML_Project/build/CMakeFiles/edit_cache.dir
-/mnt/d/projettruee/SFML_Project/build/CMakeFiles/rebuild_cache.dir
