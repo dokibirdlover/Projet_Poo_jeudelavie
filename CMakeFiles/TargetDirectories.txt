@@ -1,0 +1,3 @@
+/home/chaima/projettrue/SFML_Project/CMakeFiles/main.dir
+/home/chaima/projettrue/SFML_Project/CMakeFiles/edit_cache.dir
+/home/chaima/projettrue/SFML_Project/CMakeFiles/rebuild_cache.dir
