@@ -7,7 +7,7 @@ int main() {
 
     Grid grid;
 
-    std::cout << "Entrez le chemin d'un patern ou continuer en mode aléatoire (1: Patern, 2: Aléatoire) : ";
+    std::cout << "Entrez le chemin d'un pattern ou continuer en mode aléatoire (1: Patern, 2: Aléatoire) : ";
     std::cin >> alea;
 
     if (alea == 1) {
